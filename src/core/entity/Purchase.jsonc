@@ -1,0 +1,88 @@
+{
+  "name": "Purchase",
+  "type": "object",
+  "properties": {
+    "blueprint_id": {
+      "type": "string"
+    },
+    "blueprint_title": {
+      "type": "string"
+    },
+    "blueprint_slug": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "creator_name": {
+      "type": "string"
+    },
+    "creator_slug": {
+      "type": "string"
+    },
+    "creator_user_id": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "paid",
+        "pending",
+        "refunded"
+      ],
+      "enumColors": [
+        "green",
+        "yellow",
+        "gray"
+      ],
+      "default": "pending"
+    },
+    "invoice_number": {
+      "type": "string"
+    },
+    "payment_method": {
+      "type": "string"
+    },
+    "purchased_at": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "blueprint_id",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "data.creator_user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

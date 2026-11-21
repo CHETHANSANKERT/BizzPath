@@ -1,0 +1,95 @@
+{
+  "name": "PayoutAccount",
+  "type": "object",
+  "properties": {
+    "creator_id": {
+      "type": "string"
+    },
+    "creator_name": {
+      "type": "string"
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "upi",
+        "bank"
+      ],
+      "enumColors": [
+        "blue",
+        "green"
+      ],
+      "default": "upi"
+    },
+    "upi_id": {
+      "type": "string"
+    },
+    "account_name": {
+      "type": "string"
+    },
+    "account_number": {
+      "type": "string"
+    },
+    "ifsc": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "verified"
+      ],
+      "enumColors": [
+        "yellow",
+        "green"
+      ],
+      "default": "pending"
+    },
+    "updated_on": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "creator_id"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
